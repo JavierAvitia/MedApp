@@ -1,0 +1,43 @@
+{
+  "name": "ground_contrello",
+  "version": "1.0.0",
+  "description": "groundContrello to Team Major Tom",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/michaelpacheco89/groundContrello.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.17.0",
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.15.2",
+    "bootstrap": "^3.3.7",
+    "cookie-parser": "^1.4.3",
+    "express": "^4.14.0",
+    "express-socket.io": "^1.0.3",
+    "method-override": "^2.3.9",
+    "mysql2": "^1.3.6",
+    "react": "^16.0.0",
+    "react-dom": "^16.0.0",
+    "react-router": "^4.2.0",
+    "react-router-dom": "^4.2.2",
+    "sequelize": "^4.3.1",
+    "socket.io": "^2.0.3"
+  },
+  "devDependencies": {
+    "babel-core": "^6.3.13",
+    "babel-loader": "^6.2.0",
+    "babel-preset-es2015": "^6.3.13",
+    "babel-preset-react": "^6.3.13",
+    "webpack": "^1.13.1"
+  },
+  "bugs": {
+    "url": "https://github.com/michaelpacheco89/groundContrello/issues"
+  },
+  "homepage": "https://github.com/michaelpacheco89/groundContrello#readme"
+}
