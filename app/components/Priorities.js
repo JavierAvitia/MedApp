@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import Panel from "./common/Panel";
 import API from "../utils/API";
 
-class Favorites extends Component {
+class Priorities extends Component {
   constructor() {
     super();
     this.state = {
@@ -35,10 +35,10 @@ class Favorites extends Component {
   }
   render() {
     return (
-      <div>
+      <div className="container">
         <div className="jumbotron text-center">
-          <h1>Your Favorite Quotes</h1>
-          <p>Your very best quotes.</p>
+          <h1>Priority Tasks</h1>
+          <p>Your most urgent tasks.</p>
         </div>
         <div className="row">
           <hr />
@@ -49,4 +49,4 @@ class Favorites extends Component {
   }
 }
 
-export default Favorites;
+export default Priorities;

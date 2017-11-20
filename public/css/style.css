@@ -23,3 +23,30 @@ body {
 .quote {
   padding-top: 20px;
 }
+
+.divBorder{
+  padding:0.5em;
+  border:black solid 1px;
+  border-radius: 0.3em;
+  background-color:white;
+  padding:0.5em;
+  display:inline-block;
+}
+
+.panel.panel-default.divBorder{
+  margin:1em;
+  color:black;
+  font-weight: bolder;
+}
+
+.cIN {
+  background-color: green;
+}
+
+.cOUT {
+  background-color: red;
+}
+
+.cLUNCH {
+  background-color: yellow;
+}

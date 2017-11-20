@@ -2,8 +2,9 @@ import React, { Component } from "react";
 import { Route } from 'react-router-dom';
 import Navbar from "./common/Navbar";
 import Footer from "./common/Footer";
-import Favorites from "../components/Favorites";
+import Priorities from "../components/Priorities";
 import Home from "../components/Home";
+import Tasks from "../components/Tasks";
 
 /*const Main = () => (
   <div>
@@ -18,7 +19,8 @@ class Main extends Component {
   constructor() {
     super();
     this.state = {
-      path: "/"
+      path: "/",
+      username: "Jacob"
     };
     // Binding getQuotes to this component since we'll be passing this method to 
     // other components to use
@@ -32,8 +34,9 @@ class Main extends Component {
     return (
       <div>
 	    <Navbar pathName={this.pathName} />
-			<Route exact path="/" component={Home}/>
-		    <Route path="/favorites" component={Favorites} />
+			<Route exact path="/" render={(props) => (<Home username={this.state.username} {...props}/>)} />
+      <Route path="/tasks" component={Tasks} />
+		  <Route path="/priorities" component={Priorities} />
 	    <Footer />
 	  </div>
     );

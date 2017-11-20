@@ -11,8 +11,11 @@ const Navbar = (props) => (
         <li className={location.pathname === "/" && "active"}>
           <Link to="/" onClick={() => this.props.pathName()}>Home</Link>
         </li>
-        <li className={location.pathname === "/favorites" && "active"}>
-          <Link to="/favorites" onClick={() => this.props.pathName()}>Favorites</Link>
+        <li className={location.pathname === "/tasks" && "active"}>
+          <Link to="/tasks" onClick={() => this.props.pathName()}>Tasks</Link>
+        </li>
+        <li className={location.pathname === "/priorities" && "active"}>
+          <Link to="/priorities" onClick={() => this.props.pathName()}>Priorities</Link>
         </li>
       </ul>
     </div>

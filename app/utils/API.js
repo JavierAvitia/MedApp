@@ -19,8 +19,28 @@ const API = {
     quote.favorited = !quote.favorited;
     // console.log(quote.favorited);
     const { id, favorited } = quote;
-    console.log(favorited)
+    // console.log(id);
     return axios.put(`/api/boards/${id}`, { favorited });
+  },
+  //
+  getTimesheet: function(term,query) {
+    return axios.get(`/api/timesheet?${term}=${query}`);
+  },
+  //
+  clockIn: function(date,clockIn) {
+    return axios.post("/api/clockIn", { date, clockIn });
+  },
+  //
+  lunchIn: function(id,lunchIn) {
+    return axios.put(`/api/timesheet/${id}`, { lunchIn });
+  },
+  //
+  lunchOut: function(id,lunchOut) {
+    return axios.put(`/api/timesheet/${id}`, { lunchOut });
+  },
+  //
+  clockOut: function(id,clockOut) {
+    return axios.put(`/api/timesheet/${id}`, { clockOut });
   }
 };
 
