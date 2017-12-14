@@ -1,5 +1,7 @@
 var express = require("express");
 
+var bcrypt = require("bcryptjs");
+
 var db = require("../models");
 
 var router = new express.Router();
@@ -35,8 +37,7 @@ router.get("/timesheet", function(req, res) {
     var query = {};
     if (req.query.date) {
         query.date = req.query.date;
-    }
-    else if(req.query.id){
+    } else if (req.query.id) {
         query.id = req.query.id;
     }
 
@@ -88,7 +89,7 @@ router.put("/timesheet/:id", function(req, res) {
                 id: req.params.id
             }
         }).then(function(dbTimesheet) {
-            console.log(dbTimesheet)
+        console.log(dbTimesheet)
         res.json(dbTimesheet);
     });
 });
@@ -102,5 +103,98 @@ router.delete("/boards/:id", function(req, res) {
         res.json(dbBoards);
     });
 });
+
+router.get("/users", function(req, res) {
+    //db.List.include([db.Task])
+    db.User.findAll({
+        include: [{
+            model: db.Board,
+            as: "OwnedBoards",
+            include: {
+                model: db.List,
+                include: [db.Task]
+            }
+        },{
+            model: db.Board,
+            as: "Boards",
+            include: {
+                model: db.List,
+                include: [db.Task]
+            }
+        }]
+    }).then(function(dbUser) {
+        res.json(dbUser);
+    });
+});
+
+// to find a user by id, or to check if username exists for signups
+router.get("/users/:id", function(req, res) {
+    var query = {};
+    if (req.query.name || req.query.email) {
+        query = req.query;
+    } else {
+        query.id = req.params.id;
+    }
+    db.User.findOne({
+        where: query,
+        include: [{
+            model: db.Board,
+            as: "OwnedBoards",
+            include: {
+                model: db.List,
+                include: [db.Task]
+            }
+        },{
+            model: db.Board,
+            as: "Boards",
+            include: {
+                model: db.List,
+                include: [db.Task]
+            }
+        }]
+    }).then(function(dbUser) {
+        res.json(dbUser);
+    });
+});
+
+// to validate password on user logins
+router.post("/users/login", function(req, res) {
+    var query = req.query;
+    db.User.findOne({
+        where: query
+    }).then(function(data) {
+        if (data == null) {
+            res.json({ username: true });
+        } else {
+            res.json({
+                password: bcrypt.compareSync(req.body.password, data.password),
+                id: data.id
+            });
+        }
+    });
+});
+
+// to create new user
+router.post("/users", function(req, res) {
+    db.User.create({
+        name: req.body.name,
+        email: req.body.email,
+        password: bcrypt.hashSync(req.body.password)
+    }).then(function(dbUser) {
+        res.json(dbUser);
+    });
+});
+
+// to delete user by id
+router.delete("/users/:id", function(req, res) {
+    db.User.destroy({
+        where: {
+            id: req.params.id
+        }
+    }).then(function(dbUser) {
+        res.json(dbUser);
+    });
+});
+
 
 module.exports = router;

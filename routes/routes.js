@@ -11,7 +11,9 @@ router.use("/api", apiRoutes);
 // Otherwise send all other requests the index.html page
 // React router will handle routing withing the app
 router.get("*", function(req, res) {
-  res.sendFile(path.join(__dirname, "../public/index.html"));
+	/*console.log(req.cookies,"dude");
+	console.log(Object.hasOwnProperty.call(req.cookies, "userId"));*/
+  	res.sendFile(path.join(__dirname, "../public/index.html"));
 });
 
 module.exports = router;

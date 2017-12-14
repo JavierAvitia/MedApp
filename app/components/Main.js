@@ -2,18 +2,11 @@ import React, { Component } from "react";
 import { Route } from 'react-router-dom';
 import Navbar from "./common/Navbar";
 import Footer from "./common/Footer";
-import Priorities from "../components/Priorities";
-import Home from "../components/Home";
-import Tasks from "../components/Tasks";
-
-/*const Main = () => (
-  <div>
-    <Navbar />
-		<Route exact path="/" component={Home}/>
-	    <Route path="/favorites" component={Favorites} />
-    <Footer />
-  </div>
-);*/
+import Priorities from "./children/Priorities";
+import Home from "./children/Home";
+import Tasks from "./children/Tasks";
+import LoggedIn from "./LoggedIn";
+import LoggedOff from "./LoggedOff";
 
 class Main extends Component {
   constructor() {
@@ -26,19 +19,37 @@ class Main extends Component {
     // other components to use
     this.pathName = this.pathName.bind(this);
   }
+  getCookie(cname){
+    var name = cname + "=";
+    var decodedCookie = decodeURIComponent(document.cookie);
+    var ca = decodedCookie.split(';');
+    for(var i = 0; i <ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) == ' ') {
+            c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+            return c.substring(name.length, c.length);
+        }
+    }
+    return "";
+  }
+  componentDidMount(){
+    var cookie = this.getCookie("userId");
+    console.log(cookie,"dogs");
+  }
   // Getting all quotes once the component has mounted
   pathName(path) {
     this.setState({path});
   }
+  //Below will fail because only one component can be sent as part of the conditional, but these components can all
+  // be combined in a separate component and the imported here.
   render() {
     return (
       <div>
-	    <Navbar pathName={this.pathName} />
-			<Route exact path="/" render={(props) => (<Home username={this.state.username} {...props}/>)} />
-      <Route path="/tasks" component={Tasks} />
-		  <Route path="/priorities" component={Priorities} />
-	    <Footer />
-	  </div>
+  	    {this.getCookie("userId") ? <LoggedIn pathName={this.pathName} username={this.state.username} />
+        : <LoggedOff pathName={this.pathName} />}
+  	  </div>
     );
   }
 }

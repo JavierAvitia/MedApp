@@ -1,6 +1,7 @@
 import axios from "axios";
 
 const API = {
+  //Boards APIs
   // Retrieves all quotes from the db
   getQuotes: function() {
     return axios.get("/api/boards");
@@ -22,11 +23,15 @@ const API = {
     // console.log(id);
     return axios.put(`/api/boards/${id}`, { favorited });
   },
-  //
+  //end Boards
+
+  //Timesheet APIs
   getTimesheet: function(term,query) {
     return axios.get(`/api/timesheet?${term}=${query}`);
   },
-  //
+  //end Timesheet
+
+  //Clock APIs
   clockIn: function(date,clockIn) {
     return axios.post("/api/clockIn", { date, clockIn });
   },
@@ -41,7 +46,14 @@ const API = {
   //
   clockOut: function(id,clockOut) {
     return axios.put(`/api/timesheet/${id}`, { clockOut });
+  },
+  //end Clock
+
+  //User APIs
+  saveUser: function(name,email,password) {
+    return axios.post("/api/users", { name, email, password });
   }
+  //end User
 };
 
 export default API;

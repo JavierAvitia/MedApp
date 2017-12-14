@@ -1,27 +1,26 @@
 import React, { Component } from "react";
-import Panel from "./common/Panel";
-import QuoteForm from "./common/QuoteForm";
-import API from "../utils/API";
+import Panel from "../common/Panel";
+import API from "../../utils/API";
 
-class Tasks extends Component {
+class Priorities extends Component {
   constructor() {
     super();
     this.state = {
       quotes: []
     };
-    // Binding getQuotes to our component since we'll be passing this
-    // method to child components
+    // Binding getQuotes to this component since we'll be passing this method to 
+    // other components to use
     this.getQuotes = this.getQuotes.bind(this);
   }
-  // Getting all quotes when the component mounts
+  // Getting all quotes once the component has mounted
   componentDidMount() {
     this.getQuotes();
   }
   getQuotes() {
     API.getQuotes().then((res) => {
-      // console.log(res);
-      this.setState({ quotes: res.data });
-      // this.state.quotes.map(quote => console.log(quote.id));
+      const favoriteQuotes = res.data.filter(quote => quote.favorited);
+      this.setState({ quotes: favoriteQuotes });
+      // console.log(this.state.quotes);
     });
   }
   // A helper method for rendering one panel for each quote
@@ -37,10 +36,9 @@ class Tasks extends Component {
   render() {
     return (
       <div className="container">
-        <div className="row">
-          <QuoteForm
-            getQuotes={this.getQuotes}
-          />
+        <div className="jumbotron text-center">
+          <h1>Priority Tasks</h1>
+          <p>Your most urgent tasks.</p>
         </div>
         <div className="row">
           <hr />
@@ -51,4 +49,4 @@ class Tasks extends Component {
   }
 }
 
-export default Tasks;
+export default Priorities;

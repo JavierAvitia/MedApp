@@ -1,8 +1,8 @@
 import React, { Component } from "react";
-import Time from "./children/Time";
-import Panel from "./common/Panel";
-import QuoteForm from "./common/QuoteForm";
-import API from "../utils/API";
+import Time from "./Time";
+import Panel from "../common/Panel";
+import QuoteForm from "../common/QuoteForm";
+import API from "../../utils/API";
 import moment from "moment";
 
 class Home extends Component {
@@ -26,6 +26,7 @@ class Home extends Component {
   // Getting all quotes when the component mounts
   componentDidMount() {
     this.getTime();
+    console.log(this.props);
   }
 
   getTime() {
@@ -35,7 +36,7 @@ class Home extends Component {
     this.setState({
       date
     });
-
+    console.log(date,"dog");
     this.getTimeSheet("date",date);
   }
 
@@ -47,6 +48,7 @@ class Home extends Component {
   getTimeSheet(term,query){
     API.getTimesheet(term,query).then((res) => {
       if(res.data[0]){
+        console.log(res,"cat");
         this.setState({
           timesheet: res.data[0].id,
           times: Object.entries(res.data[0]).slice(2,6)
@@ -64,7 +66,7 @@ class Home extends Component {
       // this.setState({ quotes: res.data });
       API.clockIn(this.state.date,moment()).then((res) => {
         // console.log(moment(res.data.clockIn).format());
-        this.getTimeSheet(this.state.date);
+        this.getTimeSheet("date",this.state.date);
         // this.setState({ quotes: res.data });
       });
     }

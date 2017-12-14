@@ -12,6 +12,7 @@ var PORT = process.env.PORT || 8083;
 var server = require('http').Server(app);
 var io = socket(server);
 var routes = require("./routes/routes");
+var cookieParser = require('cookie-parser');
 
 // Requiring our models for syncing
 var db = require("./models");
@@ -26,16 +27,10 @@ app.use(bodyParser.json({ type: "application/vnd.api+json" }));
 
 // Static directory
 app.use(express.static("public"));
-app.use("/", routes);
 
 // Routes
 // =============================================================
-/*require("./routes/boards-api-routes.js")(app);*/
-/*require("./routes/html-routes.js")(app);*/
-/*require("./routes/task-api-routes.js")(app);
-require("./routes/user-api-routes.js")(app);
-require("./routes/list-api-routes.js")(app);
-require("./routes/boards-api-routes.js")(app);*/
+app.use("/", routes);
 
 // Syncing our sequelize models and then starting our Express app
 // =============================================================
@@ -47,59 +42,3 @@ db.sequelize.sync().then(function() {
         console.log('Server listening on PORT: ', PORT);
     });
 });
-
-//{ force: true }
-
-/*var users = {};*/
-
-// Sockets for REAL TIME ERRTHANG
-// ================================
-/*io.sockets.on("connection", function(socket) {
-  // console.log("made socket connection", socket.id);
-  socket.on("joinRoom", function(data){
-    socket.username = data.username;
-    socket.room = data.BoardId.toString();
-    // users[data.BoardId][data.username]=data.username;
-    socket.join(data.BoardId.toString());
-    // socket.emit('userOnline',data.username); for saying who is online
-  });
-  socket.on("disconnect", function(){
-    // delete users[socket.room][socket.username];
-    socket.leave(socket.room);
-    // socket.emit('userOffline',socket.username); for saying who dced
-  });
-  socket.on("chat", function(data) {
-    io.sockets.in(socket.room).emit("chat", data);
-  });
-  socket.on("typing", function(data) {
-    socket.broadcast.to(socket.room).emit("typing", data);
-  });
-  // real time for tasks and lists
-  socket.on("list", function(data){
-    // console.log(data);
-    io.sockets.in(socket.room).emit("list", data);
-  });
-  socket.on("task", function(data){
-    // console.log(data);
-    io.sockets.in(socket.room).emit("task", data);
-  });
-  socket.on("deleteList", function(data){
-    // console.log(data);
-    io.sockets.in(socket.room).emit("deleteList", data);
-  });
-  socket.on("deleteTask", function(data){
-    // console.log(data);
-    io.sockets.in(socket.room).emit("deleteTask", data);
-  });
-  // real time for updating positions for tasks and lists
-  socket.on('moveCards', function(data) {
-    io.sockets.in(socket.room).emit('moveCard', data);
-  });
-  socket.on('moveLists', function() {
-    io.sockets.in(socket.room).emit('moveList');
-  });
-  // real time for updating values of tasks/lists
-  socket.on('editListTasks', function(data) {
-    io.sockets.in(socket.room).emit('editListTask', data);
-  });
-});*/
