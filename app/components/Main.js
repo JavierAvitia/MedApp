@@ -15,8 +15,6 @@ class Main extends Component {
       path: "/",
       username: ""
     };
-    // Binding getQuotes to this component since we'll be passing this method to 
-    // other components to use
     this.pathName = this.pathName.bind(this);
     this.setCookie = this.setCookie.bind(this);
   }
@@ -45,15 +43,11 @@ class Main extends Component {
     }
     return "";
   }
-  // componentDidMount(){
-  //   var cookie = this.getCookie("userId");
-  // }
-  // Getting all quotes once the component has mounted
+  
   pathName(path) {
     this.setState({path});
   }
-  //Below will fail because only one component can be sent as part of the conditional, but these components can all
-  // be combined in a separate component and the imported here.
+
   render() {
     return (
       <div>
