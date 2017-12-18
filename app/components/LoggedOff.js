@@ -14,7 +14,7 @@ const LoggedOff = (props) => (
 		<NavbarLOff pathName={props.pathName} />
 	    <Route exact path="/" component={HomeLOff} />
 	    <Route path="/login" component={Login} />
-	    <Route path="/signup" component={SignUp} />
+	    <Route path="/signup" render={() => (<SignUp setCookie={props.setCookie}/>)} />
 	    <Footer />
 	</div>
 );

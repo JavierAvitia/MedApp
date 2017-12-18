@@ -52,6 +52,16 @@ const API = {
   //User APIs
   saveUser: function(name,email,password) {
     return axios.post("/api/users", { name, email, password });
+  },
+  //
+  loginUser: function(name,password) {
+    var queryName = 'name';
+
+    if (name.indexOf('@') != -1) {
+        queryName = 'email';
+    }
+
+    return axios.post("/api/users/login?" + queryName + "=" + name, { name, password });
   }
   //end User
 };

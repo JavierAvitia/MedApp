@@ -4,16 +4,43 @@ class Login extends Component {
   constructor() {
     super();
     this.state = {
-      path: "/",
-      username: "Jacob"
+      name: "",
+      password:""
     };
     // Binding getQuotes to this component since we'll be passing this method to 
     // other components to use
     this.fireLaserz = this.fireLaserz.bind(this);
+    this.handleNameChange = this.handleNameChange.bind(this);
+    this.handlePasswordChange = this.handlePasswordChange.bind(this);
+  }
+
+  handleNameChange(event) {
+    this.setState({ username: event.target.value });
+    // console.log(this.state.inputValue);
+  }
+
+  handlePasswordChange(event) {
+    this.setState({ password: event.target.value });
+    // console.log(this.state.inputValue);
   }
 
   fireLaserz(e) {
-  	console.log("Pew pew!");
+  	//console.log("Pew pew!");
+  	// add logic to compare passwords and only create user if passwords match--otherwise display error.
+  	API.loginUser(this.state.username,this.state.password).then((res) => {
+  		var data = res.data;
+		if (data.username) {
+		    alert("Incorrect email or username");
+		    return;
+		} else if (!data.password) {
+		    alert("Incorrect password");
+		    return;
+		} else {
+			console.log(res,data);
+		}
+      // this.setState({ quotes: res.data });
+      // this.state.quotes.map(quote => console.log(quote.id));
+    });
   	e.preventDefault();
   	return false;
   }

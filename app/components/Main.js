@@ -13,12 +13,23 @@ class Main extends Component {
     super();
     this.state = {
       path: "/",
-      username: "Jacob"
+      username: ""
     };
     // Binding getQuotes to this component since we'll be passing this method to 
     // other components to use
     this.pathName = this.pathName.bind(this);
+    this.setCookie = this.setCookie.bind(this);
   }
+
+  componentDidMount(){
+    var username = this.getCookie("username");
+    this.setState({username})
+  }
+
+  setCookie(cookieTitle,cookieValue){
+    document.cookie = cookieTitle + "=" + cookieValue;
+  }
+
   getCookie(cname){
     var name = cname + "=";
     var decodedCookie = decodeURIComponent(document.cookie);
@@ -34,10 +45,9 @@ class Main extends Component {
     }
     return "";
   }
-  componentDidMount(){
-    var cookie = this.getCookie("userId");
-    console.log(cookie,"dogs");
-  }
+  // componentDidMount(){
+  //   var cookie = this.getCookie("userId");
+  // }
   // Getting all quotes once the component has mounted
   pathName(path) {
     this.setState({path});
@@ -48,7 +58,7 @@ class Main extends Component {
     return (
       <div>
   	    {this.getCookie("userId") ? <LoggedIn pathName={this.pathName} username={this.state.username} />
-        : <LoggedOff pathName={this.pathName} />}
+        : <LoggedOff pathName={this.pathName} setCookie={this.setCookie} />}
   	  </div>
     );
   }
