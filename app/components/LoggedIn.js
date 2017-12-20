@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import { Route } from 'react-router-dom';
 import Navbar from "./common/Navbar";
 import Footer from "./common/Footer";

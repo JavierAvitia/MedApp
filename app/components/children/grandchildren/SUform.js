@@ -41,21 +41,21 @@ class SUform extends Component {
   }
 
   fireLaserz(e) {
-  	// add logic to compare passwords and only create user if passwords match--otherwise display error.
+    e.preventDefault();
+
     if(this.state.password === this.state.confirm){
       API.saveUser(this.state.username,this.state.email,this.state.password).then((res) => {
-        //console.log(res);
+
         this.props.setCookie("userId",res.data.id);
         this.props.setCookie("username",res.data.name);
+        this.props.history.push('/');
+        
       });
     }
     else{
       alert("Passwords do not match!");
+      return false;
     }
-
-  	e.preventDefault();
-    this.props.history.push('/');
-  	//return false;
   }
 
   render() {

@@ -17,15 +17,23 @@ class Main extends Component {
     };
     this.pathName = this.pathName.bind(this);
     this.setCookie = this.setCookie.bind(this);
+    this.setUsername = this.setUsername.bind(this);
   }
 
   componentDidMount(){
+    this.setUsername();
+  }
+
+  setUsername(){
     var username = this.getCookie("username");
     this.setState({username})
   }
 
   setCookie(cookieTitle,cookieValue){
     document.cookie = cookieTitle + "=" + cookieValue;
+    if(cookieTitle === "username"){
+      this.setUsername();
+    }
   }
 
   getCookie(cname){
@@ -43,7 +51,7 @@ class Main extends Component {
     }
     return "";
   }
-  
+
   pathName(path) {
     this.setState({path});
   }

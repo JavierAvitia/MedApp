@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import { Route } from 'react-router-dom';
 import NavbarLOff from "./common/NavbarLOff";
 import Footer from "./common/Footer";
@@ -15,9 +15,7 @@ const LoggedOff = (props) => (
 		<NavbarLOff pathName={props.pathName} />
 	    <Route exact path="/" component={HomeLOff} />
 	    <Route path="/login" component={Login} />
-	    <Route path="/signup" render={() => (<SignUp setCookie={props.setCookie}/>)}>
-	    	<Route path="/" component={Main} />
-	    </Route>
+	    <Route path="/signup" render={() => (<SignUp setCookie={props.setCookie}/>)} />
 	    <Footer />
 	</div>
 );
