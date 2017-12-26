@@ -21,6 +21,7 @@ class Home extends Component {
     // method to child components
     this.getTime = this.getTime.bind(this);
     this.clockIn = this.clockIn.bind(this);
+    this.lunchIn = this.lunchIn.bind(this);
     this.getTimeSheet = this.getTimeSheet.bind(this);
   }
   // Getting all quotes when the component mounts
@@ -36,7 +37,6 @@ class Home extends Component {
     this.setState({
       date
     });
-    console.log(date,"dog");
     this.getTimeSheet("date",date);
   }
 
@@ -73,11 +73,12 @@ class Home extends Component {
   }
 
   lunchIn() {
+    //console.log(this.state.timesheet);
     if(this.state.timesheet){
       // console.log(this.state.timestamp);
       // this.setState({ quotes: res.data });
       API.lunchIn(this.state.timesheet,moment()).then((res) => {
-        //console.log(res.data);
+        console.log(this.state.timesheet,"DOGGGGY");
         this.getTimeSheet("id",this.state.timesheet);
         // this.setState({ quotes: res.data });
       });

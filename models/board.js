@@ -13,24 +13,18 @@ module.exports = function(sequelize, DataTypes) {
             defaultValue: false
         }
     });
-//s
-    const UserTeam = sequelize.define('UserTeam', {
-        teamName: DataTypes.STRING
-    });
+//
+    // const UserBoards = sequelize.define('UserBoards');
 
     Board.associate = function(models) {
-        Board.hasMany(models.List, {
-            onDelete: "cascade"
-        });
+        //console.log(models.User);
         Board.belongsTo(models.User, {
-            as:"Owner",
             foreignKey: {
                 name: "OwnerId"
             }
         });
         Board.belongsToMany(models.User, {
-            through: UserTeam,
-            as:"Users"
+            through: "UserBoards"
         });
     };
 

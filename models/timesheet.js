@@ -19,26 +19,13 @@ module.exports = function(sequelize, DataTypes) {
         }
     });
 
-// May create user association to timesheet later
-/*    const UserTeam = sequelize.define('UserTeam', {
-        teamName: DataTypes.STRING
-    });
-
-    Board.associate = function(models) {
-        Board.hasMany(models.List, {
-            onDelete: "cascade"
-        });
-        Board.belongsTo(models.User, {
-            as:"Owner",
-            foreignKey: {
-                name: "OwnerId"
-            }
-        });
-        Board.belongsToMany(models.User, {
-            through: UserTeam,
-            as:"Users"
-        });
-    };*/
+    // TimeSheet.associate = function(models) {
+    //     TimeSheet.belongsTo(models.User, {
+    //         foreignKey: {
+    //             name: "OwnerId"
+    //         }
+    //     });
+    // };
 
     return TimeSheet;
 };

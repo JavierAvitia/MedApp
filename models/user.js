@@ -21,27 +21,23 @@ module.exports = function(sequelize, DataTypes) {
         }
     });
 
-    const UserTeam = sequelize.define('UserTeam', {
-        teamName: DataTypes.STRING
-    });
+    // const UserBoards = sequelize.define('UserBoards');
 
     //LINK USER TO LIST (USER HAS MANY LISTs)
     User.associate = function(models) {
-        User.hasMany(models.Board, {
-            as: "OwnedBoards",
+        User.hasMany(models.TimeSheet, {
             onDelete: "cascade",
             foreignKey: {
                 name: "OwnerId"
             }
         });
         User.belongsToMany(models.Board, {
-            through: UserTeam,
-            as:"Boards"
+            through: "UserBoards"
         });
-        User.belongsToMany(models.Task, {
-            through: "taskTeams"/*,
-            as:"taskUsers"*/
-        });
+        // User.belongsToMany(models.Task, {
+        //     through: "taskTeams"/*,
+        //     as:"taskUsers"*/
+        // });
     };
 
     return User;
