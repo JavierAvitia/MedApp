@@ -21,7 +21,8 @@ module.exports = function(sequelize, DataTypes) {
         Board.belongsTo(models.User, {
             foreignKey: {
                 name: "OwnerId"
-            }
+            },
+            as: "Owner"
         });
         Board.belongsToMany(models.User, {
             through: "UserBoards"

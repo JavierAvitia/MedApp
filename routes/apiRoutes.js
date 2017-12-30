@@ -4,147 +4,85 @@ var bcrypt = require("bcryptjs");
 
 var db = require("../models");
 
+var boardAPI = require("./functions/boardFunctions.js");
+var timesheetAPI = require("./functions/timesheetFunctions.js");
+var userAPI = require("./functions/userFunctions.js");
+
 var router = new express.Router();
 
-// Get all quotes (or optionally a specific quote with an id)
-router.get("/boards", function(req, res) {
-    var query = {};
-    if (req.query.id) {
-        query.id = req.query.id;
-    }
+/*BEGIN BOARD ROUTES*/
 
-    db.Board.findAll({
-        where: query,
-        include: {
-                model: db.User,
-                as: "Users"
-            }
-    }).then(function(dbBoards) {
-        res.json(dbBoards);
-    });
-
+//Get all boards or just one by ?id="X" query
+router.get("/boards", function(req,res){
+    boardAPI.getBoards(req,res);
 });
-//add or remove user to-from a board
-router.put("/UserBoards/:action", function(req, res) {
-    var query = {};
-    if (req.body.boardId) {
-        query.id = req.body.boardId;
-        db.Board.findOne({
-            where: query
-        }).then(function(dbBoard) {
-            db.User.findById(req.body.userId).then(function(dbUser){
-
-                switch(req.params.action){
-                    case "add":
-                        dbBoard.addUser(dbUser);
-                    case "remove":
-                        dbBoard.removeUser(dbUser);
-                }
-
-                res.json(dbBoard);
-            });
-        }).catch(function(error) {
-            console.log(error);
-        });
-    }
-    
-});
-// Create a new quote using data passed in req.body
+//Create new board using posted data and cookies
 router.post("/boards", function(req, res) {
-    var userId = req.cookies.userId;
-    req.body.OwnerId = userId;
-
-    db.User.findById(userId).then(function(dbUser){
-        db.Board.create(req.body).then(function(dbBoard) {
-            dbUser.addBoard(dbBoard);
-            res.json(dbBoard);
-        });
-    });        
+    boardAPI.createBoard(req,res);       
 });
-// clockIn
-router.post("/clockIn", function(req, res) {
-    req.body.OwnerId = req.cookies.userId;
-
-    db.TimeSheet.create(req.body).then(function(dbTimeSheet) {
-        // dbBoards.setUsers([req.body.OwnerId], { through: { teamName: req.body.name } });
-        res.json(dbTimeSheet);
-    });
-});
-// Update an existing quote with a specified id param, using data in req.body
+//Update an existing board with /:id params using passed req.body
 router.put("/boards/:id", function(req, res) {
-    db.Board.update(
-        req.body, {
-            where: {
-                id: req.params.id
-            }
-        }).then(function(dbBoards) {
-        res.json(dbBoards);
-    });
+    boardAPI.updateBoard(req, res);
 });
-// Get all timesheets (or optionally a specific timesheet with a date)
-router.get("/timesheet", function(req, res) {
-    var query = {};
-
-    // query.date = req.query.date;
-    // query.OwnerId = userId;
-//MAY MODIFY LATER TO TAKE MORE ARGUMENTS (BELOW, possible switch-case needed)
-//NEED THE STUFF BELOW FOR THE LUNCH IN/OUT to work, used ID ):<
-    if (req.query.date) {
-        query.date = req.query.date;
-        query.OwnerId = req.cookies.userId;
-    } else if (req.query.id) {
-        query.id = req.query.id;
-    }
-
-    db.TimeSheet.findAll({
-        where: query
-    }).then(function(dbTimesheet) {
-        res.json(dbTimesheet);
-    });
-});
-// Update an existing timesheet with a specified id param, using data in req.body
-router.put("/timesheet/:id", function(req, res) {
-    db.TimeSheet.update(
-        req.body, {
-            where: {
-                id: req.params.id
-            }
-        }).then(function(dbTimesheet) {
-        console.log(dbTimesheet,"kitty")
-        res.json(dbTimesheet);
-    });
-});
-// Delete a specific quote using the id in req.params.id
+//Delete an existing board with /:id params
 router.delete("/boards/:id", function(req, res) {
-    db.Board.destroy({
-        where: {
-            id: req.params.id
-        }
-    }).then(function(dbBoards) {
-        res.json(dbBoards);
-    });
+    boardAPI.deleteBoard(req,res);
 });
 
+/*END BOARD ROUTES*/
+
+
+
+/*BEGIN TIMESHEET ROUTES*/
+
+//Gget timesheets using timesheet id or date/cookies
+router.get("/timesheet", function(req, res) {
+    timesheetAPI.getTimeSheets(req,res);
+});
+//Clock-in/create timesheet if does not exist
+router.post("/clockIn", function(req, res) {
+    timesheetAPI.clockIn(req,res);
+});
+//Update timesheets (lunchIn, lunchOut, clockOut) using req.body
+router.put("/timesheet/:id", function(req, res) {
+    timesheetAPI.updateTimeSheet(req,res);
+});
+
+/*END TIMESHEET ROUTES*/
+
+
+
+/*BEGIN USER ROUTES*/
+
+//Get all boards or just one by req.query
 router.get("/users", function(req, res) {
-
-    var query = {};
-    if (req.query.id || req.query.name || req.query.email) {
-        query = req.query;
-    }
-
-    db.User.findAll({
-        where: query,
-        include: [{
-            model: db.Board,
-            as: 'Boards'
-        },{
-            model: db.TimeSheet,
-            as: 'TimeSheets'
-        }]
-}).then(function(dbUser) {
-        res.json(dbUser);
-    });
+    userAPI.getUsers(req,res);
 });
+
+//Validate password on user logins [possibly modify to use route on sign-up]
+router.post("/users/login", function(req, res) {
+    userAPI.validateUser(req,res);
+});
+
+//Create new user
+router.post("/users", function(req, res) {
+    userAPI.createUser(req,res);
+});
+
+//Delete user by id
+router.delete("/users/:id", function(req, res) {
+    userAPI.deleteUser(req,res);
+});
+
+//Add-remove user to-from a board
+router.put("/UserBoards/:action", function(req, res) {
+    userAPI.addRemoveUserBoard(req,res);
+});
+
+/*END USER ROUTES*/
+
+
+
 
 // // to find a user by id, or to check if username exists for signups
 // router.get("/users/:id", function(req, res) {
@@ -160,45 +98,5 @@ router.get("/users", function(req, res) {
 //         res.json(dbUser);
 //     });
 // });
-
-// to validate password on user logins
-router.post("/users/login", function(req, res) {
-    var query = req.query;
-    db.User.findOne({
-        where: query
-    }).then(function(data) {
-        if (data == null) {
-            res.json({ username: true });
-        } else {
-            res.json({
-                password: bcrypt.compareSync(req.body.password, data.password),
-                id: data.id
-            });
-        }
-    });
-});
-
-// to create new user
-router.post("/users", function(req, res) {
-    db.User.create({
-        name: req.body.name,
-        email: req.body.email,
-        password: bcrypt.hashSync(req.body.password)
-    }).then(function(dbUser) {
-        res.json(dbUser);
-    });
-});
-
-// to delete user by id
-router.delete("/users/:id", function(req, res) {
-    db.User.destroy({
-        where: {
-            id: req.params.id
-        }
-    }).then(function(dbUser) {
-        res.json(dbUser);
-    });
-});
-
 
 module.exports = router;

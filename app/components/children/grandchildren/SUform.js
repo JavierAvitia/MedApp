@@ -40,6 +40,7 @@ class SUform extends Component {
     // console.log(this.state.inputValue);
   }
 
+//modify to check if username or password have been used
   fireLaserz(e) {
     e.preventDefault();
 

@@ -19,13 +19,5 @@ module.exports = function(sequelize, DataTypes) {
         }
     });
 
-    // TimeSheet.associate = function(models) {
-    //     TimeSheet.belongsTo(models.User, {
-    //         foreignKey: {
-    //             name: "OwnerId"
-    //         }
-    //     });
-    // };
-
     return TimeSheet;
 };
