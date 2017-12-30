@@ -3,25 +3,25 @@ import axios from "axios";
 const API = {
   //Boards APIs
   // Retrieves all quotes from the db
-  getQuotes: function() {
+  getTasks: function() {
     return axios.get("/api/boards");
   },
   // Saves a new quote to the db
-  saveQuote: function(text) {
+  saveTask: function(text) {
     return axios.post("/api/boards", { name: text });
   },
   // Deletes a quote from the db
-  deleteQuote: function(id) {
+  deleteTask: function(id) {
     return axios.delete(`/api/boards/${id}`);
   },
   // Toggles a quote's favorite property in the db
-  favoriteQuote: function(quote) {
+  priorityTask: function(task) {
     // console.log(quote.favorited);
-    quote.favorited = !quote.favorited;
+    task.priority = !task.priority;
     // console.log(quote.favorited);
-    const { id, favorited } = quote;
+    const { id, priority } = task;
     // console.log(id);
-    return axios.put(`/api/boards/${id}`, { favorited });
+    return axios.put(`/api/boards/${id}`, { priority });
   },
   //end Boards
 

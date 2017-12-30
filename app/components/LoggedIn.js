@@ -4,14 +4,14 @@ import Navbar from "./common/Navbar";
 import Footer from "./common/Footer";
 import Priorities from "./children/Priorities";
 import Home from "./children/Home";
-import Tasks from "./children/Tasks";
+import Tasks from "./children//Tasks";
 
 // use const and render the usual stuff in a component so boolean && can be used
 // to either render the page or to render the login page
 
 const LoggedIn = (props) => (
 	<div>
-		<Navbar pathName={props.pathName} />
+		<Navbar pathName={props.pathName} loggedIn={props.loggedIn} />
 	    <Route exact path="/" render={() => (<Home username={props.username}/>)} />
 	    <Route path="/tasks" component={Tasks} />
 	    <Route path="/priorities" component={Priorities} />

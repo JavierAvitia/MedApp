@@ -7,7 +7,7 @@ module.exports = function(sequelize, DataTypes) {
                 len: [1]
             }
         },
-        favorited: {
+        priority: {
             type: DataTypes.BOOLEAN,
             allowNull: false,
             defaultValue: false

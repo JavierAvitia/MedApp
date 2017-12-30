@@ -1,7 +1,5 @@
 import React, { Component } from "react";
-import Time from "./Time";
-import Panel from "../common/Panel";
-import QuoteForm from "../common/QuoteForm";
+import Time from "./grandchildren/Time";
 import API from "../../utils/API";
 import moment from "moment";
 
@@ -27,7 +25,6 @@ class Home extends Component {
   // Getting all quotes when the component mounts
   componentDidMount() {
     this.getTime();
-    console.log(this.props);
   }
 
   getTime() {
@@ -38,11 +35,6 @@ class Home extends Component {
       date
     });
     this.getTimeSheet("date",date);
-  }
-
-  // A helper method for rendering one panel for each quote
-  fireLaser() {
-    console.log("PEW PEW");
   }
 
   getTimeSheet(term,query){
@@ -78,7 +70,6 @@ class Home extends Component {
       // console.log(this.state.timestamp);
       // this.setState({ quotes: res.data });
       API.lunchIn(this.state.timesheet,moment()).then((res) => {
-        console.log(this.state.timesheet,"DOGGGGY");
         this.getTimeSheet("id",this.state.timesheet);
         // this.setState({ quotes: res.data });
       });

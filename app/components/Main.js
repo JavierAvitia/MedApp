@@ -1,10 +1,5 @@
 import React, { Component } from "react";
 import { Route } from 'react-router-dom';
-import Navbar from "./common/Navbar";
-import Footer from "./common/Footer";
-import Priorities from "./children/Priorities";
-import Home from "./children/Home";
-import Tasks from "./children/Tasks";
 import LoggedIn from "./LoggedIn";
 import LoggedOff from "./LoggedOff";
 
@@ -59,8 +54,10 @@ class Main extends Component {
   render() {
     return (
       <div>
-  	    {this.getCookie("userId") ? <LoggedIn pathName={this.pathName} username={this.state.username} />
-        : <LoggedOff pathName={this.pathName} setCookie={this.setCookie} />}
+
+  	    {this.getCookie("userId") ? <LoggedIn pathName={this.pathName} username={this.state.username} loggedIn={true} />
+        : <LoggedOff pathName={this.pathName} setCookie={this.setCookie} loggedIn={false} />}
+
   	  </div>
     );
   }

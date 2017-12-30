@@ -5,7 +5,7 @@ const Navbar = (props) => (
   <nav style={{ marginBottom: 0 }} className="navbar navbar-inverse">
     <div className="container-fluid">
       <div className="navbar-header">
-        <Link className="navbar-brand" to="/" onClick={() => this.props.pathName("/")}>Quotes App</Link>
+        <Link className="navbar-brand" to="/" onClick={() => this.props.pathName("/")}>Med App</Link>
       </div>
       <ul className="nav navbar-nav text-center">
         <li className={location.pathname === "/" && "active"}>

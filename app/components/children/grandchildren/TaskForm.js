@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import API from "../../utils/API";
+import API from "../../../utils/API";
 
-class QuoteForm extends Component {
+class TaskForm extends Component {
   constructor() {
     super();
     this.state = {
@@ -17,9 +17,9 @@ class QuoteForm extends Component {
     // console.log(this.state.inputValue);
   }
   handleButtonClick() {
-    const newQuote = this.state.inputValue;
+    const newTask = this.state.inputValue;
     // console.log(newQuote);
-    API.saveQuote(newQuote).then(this.props.getQuotes);
+    API.saveTask(newTask).then(this.props.getTasks);
     this.setState({ inputValue: "" });
   }
   render() {
@@ -27,7 +27,7 @@ class QuoteForm extends Component {
       <div className="col-md-6 col-md-offset-3">
         <div style={styles.formStyle} className="form-group">
           <label htmlFor="input-box">
-            Add a quote
+            Add a task
           </label>
           <textarea
             style={{
@@ -35,7 +35,7 @@ class QuoteForm extends Component {
             }}
             onChange={this.handleInputChange}
             value={this.state.inputValue}
-            placeholder="Add a new quote here!"
+            placeholder="Add a new task here!"
             className="form-control"
             id="input-box"
             rows="3"
@@ -64,4 +64,4 @@ const styles = {
   }
 };
 
-export default QuoteForm;
+export default TaskForm;

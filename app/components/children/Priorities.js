@@ -1,35 +1,35 @@
 import React, { Component } from "react";
-import Panel from "../common/Panel";
+import Panel from "./grandchildren/Panel";
 import API from "../../utils/API";
 
 class Priorities extends Component {
   constructor() {
     super();
     this.state = {
-      quotes: []
+      tasks: []
     };
     // Binding getQuotes to this component since we'll be passing this method to 
     // other components to use
-    this.getQuotes = this.getQuotes.bind(this);
+    this.getTasks = this.getTasks.bind(this);
   }
   // Getting all quotes once the component has mounted
   componentDidMount() {
-    this.getQuotes();
+    this.getTasks();
   }
-  getQuotes() {
-    API.getQuotes().then((res) => {
-      const favoriteQuotes = res.data.filter(quote => quote.favorited);
-      this.setState({ quotes: favoriteQuotes });
+  getTasks() {
+    API.getTasks().then((res) => {
+      const priorityTasks = res.data.filter(task => task.priority);
+      this.setState({ tasks: priorityTasks });
       // console.log(this.state.quotes);
     });
   }
   // A helper method for rendering one panel for each quote
-  renderQuotes() {
-    return this.state.quotes.map(quote => (
+  renderTasks() {
+    return this.state.tasks.map(task => (
       <Panel
-        quote={quote}
-        key={quote.id}
-        getQuotes={this.getQuotes}
+        task={task}
+        key={task.id}
+        getTasks={this.getTasks}
       />
     ));
   }
@@ -42,7 +42,7 @@ class Priorities extends Component {
         </div>
         <div className="row">
           <hr />
-          {this.renderQuotes()}
+          {this.renderTasks()}
         </div>
       </div>
     );

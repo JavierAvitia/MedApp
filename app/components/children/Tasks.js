@@ -1,36 +1,36 @@
 import React, { Component } from "react";
-import Panel from "../common/Panel";
-import QuoteForm from "../common/QuoteForm";
+import Panel from "./grandchildren/Panel";
+import TaskForm from "./grandchildren/TaskForm";
 import API from "../../utils/API";
 
 class Tasks extends Component {
   constructor() {
     super();
     this.state = {
-      quotes: []
+      tasks: []
     };
     // Binding getQuotes to our component since we'll be passing this
     // method to child components
-    this.getQuotes = this.getQuotes.bind(this);
+    this.getTasks = this.getTasks.bind(this);
   }
   // Getting all quotes when the component mounts
   componentDidMount() {
-    this.getQuotes();
+    this.getTasks();
   }
-  getQuotes() {
-    API.getQuotes().then((res) => {
+  getTasks() {
+    API.getTasks().then((res) => {
       // console.log(res);
-      this.setState({ quotes: res.data });
+      this.setState({ tasks: res.data });
       // this.state.quotes.map(quote => console.log(quote.id));
     });
   }
   // A helper method for rendering one panel for each quote
-  renderQuotes() {
-    return this.state.quotes.map(quote => (
+  renderTasks() {
+    return this.state.tasks.map(task => (
       <Panel
-        quote={quote}
-        key={quote.id}
-        getQuotes={this.getQuotes}
+        task={task}
+        key={task.id}
+        getTasks={this.getTasks}
       />
     ));
   }
@@ -38,13 +38,13 @@ class Tasks extends Component {
     return (
       <div className="container">
         <div className="row">
-          <QuoteForm
-            getQuotes={this.getQuotes}
+          <TaskForm
+            getTasks={this.getTasks}
           />
         </div>
         <div className="row">
           <hr />
-          {this.renderQuotes()}
+          {this.renderTasks()}
         </div>
       </div>
     );
