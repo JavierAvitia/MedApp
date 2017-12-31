@@ -4,32 +4,32 @@ var bcrypt = require("bcryptjs");
 
 var db = require("../models");
 
-var boardAPI = require("./functions/boardFunctions.js");
+var taskAPI = require("./functions/taskFunctions.js");
 var timesheetAPI = require("./functions/timesheetFunctions.js");
 var userAPI = require("./functions/userFunctions.js");
 
 var router = new express.Router();
 
-/*BEGIN BOARD ROUTES*/
+/*BEGIN TASK ROUTES*/
 
-//Get all boards or just one by ?id="X" query
-router.get("/boards", function(req,res){
-    boardAPI.getBoards(req,res);
+//Get all tasks or just one by ?id="X" query
+router.get("/tasks", function(req,res){
+    taskAPI.getTasks(req,res);
 });
-//Create new board using posted data and cookies
-router.post("/boards", function(req, res) {
-    boardAPI.createBoard(req,res);       
+//Create new task using posted data and cookies
+router.post("/tasks", function(req, res) {
+    taskAPI.createTask(req,res);       
 });
-//Update an existing board with /:id params using passed req.body
-router.put("/boards/:id", function(req, res) {
-    boardAPI.updateBoard(req, res);
+//Update an existing task with /:id params using passed req.body
+router.put("/tasks/:id", function(req, res) {
+    taskAPI.updateTask(req, res);
 });
-//Delete an existing board with /:id params
-router.delete("/boards/:id", function(req, res) {
-    boardAPI.deleteBoard(req,res);
+//Delete an existing task with /:id params
+router.delete("/tasks/:id", function(req, res) {
+    taskAPI.deleteTask(req,res);
 });
 
-/*END BOARD ROUTES*/
+/*END TASK ROUTES*/
 
 
 
@@ -54,7 +54,7 @@ router.put("/timesheet/:id", function(req, res) {
 
 /*BEGIN USER ROUTES*/
 
-//Get all boards or just one by req.query
+//Get all users or just one by req.query
 router.get("/users", function(req, res) {
     userAPI.getUsers(req,res);
 });
@@ -74,9 +74,9 @@ router.delete("/users/:id", function(req, res) {
     userAPI.deleteUser(req,res);
 });
 
-//Add-remove user to-from a board
-router.put("/UserBoards/:action", function(req, res) {
-    userAPI.addRemoveUserBoard(req,res);
+//Add-remove user to-from a task
+router.put("/UserTasks/:action", function(req, res) {
+    userAPI.addRemoveUserTask(req,res);
 });
 
 /*END USER ROUTES*/

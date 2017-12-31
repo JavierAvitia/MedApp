@@ -1,18 +1,18 @@
 import axios from "axios";
 
 const API = {
-  //Boards APIs
+  //Task APIs
   // Retrieves all quotes from the db
   getTasks: function() {
-    return axios.get("/api/boards");
+    return axios.get("/api/tasks");
   },
   // Saves a new quote to the db
   saveTask: function(text) {
-    return axios.post("/api/boards", { name: text });
+    return axios.post("/api/tasks", { name: text });
   },
   // Deletes a quote from the db
   deleteTask: function(id) {
-    return axios.delete(`/api/boards/${id}`);
+    return axios.delete(`/api/tasks/${id}`);
   },
   // Toggles a quote's favorite property in the db
   priorityTask: function(task) {
@@ -21,9 +21,9 @@ const API = {
     // console.log(quote.favorited);
     const { id, priority } = task;
     // console.log(id);
-    return axios.put(`/api/boards/${id}`, { priority });
+    return axios.put(`/api/tasks/${id}`, { priority });
   },
-  //end Boards
+  //end Tasks
 
   //Timesheet APIs
   getTimesheet: function(term,query) {

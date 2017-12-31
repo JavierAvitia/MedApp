@@ -31,8 +31,8 @@ module.exports = function(sequelize, DataTypes) {
                 name: "OwnerId"
             }
         });
-        User.belongsToMany(models.Board, {
-            through: "UserBoards"
+        User.belongsToMany(models.Task, {
+            through: "UserTasks"
         });
         // User.belongsToMany(models.Task, {
         //     through: "taskTeams"/*,

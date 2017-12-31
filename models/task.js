@@ -1,5 +1,5 @@
 module.exports = function(sequelize, DataTypes) {
-    var Board = sequelize.define("Board", {
+    var Task = sequelize.define("Task", {
         name: {
             type: DataTypes.STRING,
             allowNull: false,
@@ -14,20 +14,20 @@ module.exports = function(sequelize, DataTypes) {
         }
     });
 //
-    // const UserBoards = sequelize.define('UserBoards');
+    // const UserTasks = sequelize.define('UserTasks');
 
-    Board.associate = function(models) {
+    Task.associate = function(models) {
         //console.log(models.User);
-        Board.belongsTo(models.User, {
+        Task.belongsTo(models.User, {
             foreignKey: {
                 name: "OwnerId"
             },
             as: "Owner"
         });
-        Board.belongsToMany(models.User, {
-            through: "UserBoards"
+        Task.belongsToMany(models.User, {
+            through: "UserTasks"
         });
     };
 
-    return Board;
+    return Task;
 };
