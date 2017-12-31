@@ -8,6 +8,8 @@ module.exports = {
         var query = {};
         if (req.query.id) {
             query.id = req.query.id;
+        } else {
+            query.OwnerId = req.cookies.userId;
         }
 
         db.Task.findAll({

@@ -40,14 +40,34 @@ module.exports = {
             }
         });
     },
-//Create new user
+//Create new user after checking if name is in use then checking if email is in use
     createUser: function(req, res) {
-        db.User.create({
-            name: req.body.name,
-            email: req.body.email,
-            password: bcrypt.hashSync(req.body.password)
-        }).then(function(dbUser) {
-            res.json(dbUser);
+        db.User.findOne({
+            where: {
+                name: req.body.name
+            }
+        }).then(function(dbNameExists){
+            if(dbNameExists){
+                res.send("Username already exists!")
+            } else {
+                db.User.findOne({
+                    where: {
+                        email: req.body.email
+                    }
+                }).then(function(dbEmailExists){
+                    if(dbEmailExists){
+                        res.send("E-mail is already in use!");
+                    } else {
+                        db.User.create({
+                            name: req.body.name,
+                            email: req.body.email,
+                            password: bcrypt.hashSync(req.body.password)
+                        }).then(function(dbUser) {
+                            res.json(dbUser);
+                        });
+                    }
+                });
+            }
         });
     },
 //Delete user by id

@@ -11,8 +11,6 @@ class SUform extends Component {
       password:"",
       confirm: ""
     };
-    // Binding getQuotes to this component since we'll be passing this method to 
-    // other components to use
     this.fireLaserz = this.fireLaserz.bind(this);
     this.handleNameChange = this.handleNameChange.bind(this);
     this.handleEmailChange = this.handleEmailChange.bind(this);
@@ -22,36 +20,37 @@ class SUform extends Component {
 
   handleNameChange(event) {
     this.setState({ username: event.target.value });
-    // console.log(this.state.inputValue);
   }
 
   handleEmailChange(event) {
     this.setState({ email: event.target.value });
-    // console.log(this.state.inputValue);
   }
 
   handlePasswordChange(event) {
     this.setState({ password: event.target.value });
-    // console.log(this.state.inputValue);
   }
 
   handleConfirmChange(event) {
     this.setState({ confirm: event.target.value });
-    // console.log(this.state.inputValue);
   }
 
-//modify to check if username or password have been used
   fireLaserz(e) {
     e.preventDefault();
 
     if(this.state.password === this.state.confirm){
       API.saveUser(this.state.username,this.state.email,this.state.password).then((res) => {
 
-        this.props.setCookie("userId",res.data.id);
-        this.props.setCookie("username",res.data.name);
-        this.props.history.push('/');
-        
+        var check = typeof res.data;
+        if(check === "string"){
+          alert(res.data);
+        } else{
+          this.props.setCookie("userId",res.data.id);
+          this.props.setCookie("username",res.data.name);
+          this.props.history.push('/');
+        }
+
       });
+
     }
     else{
       alert("Passwords do not match!");
