@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import API from "../../utils/API";
+import { withRouter } from 'react-router-dom';
 
 class Login extends Component {
   constructor() {
@@ -15,31 +17,27 @@ class Login extends Component {
   }
 
   handleNameChange(event) {
-    this.setState({ username: event.target.value });
-    // console.log(this.state.inputValue);
+    this.setState({ name: event.target.value });
   }
 
   handlePasswordChange(event) {
     this.setState({ password: event.target.value });
-    // console.log(this.state.inputValue);
   }
 
   fireLaserz(e) {
   	//console.log("Pew pew!");
   	// add logic to compare passwords and only create user if passwords match--otherwise display error.
-  	API.loginUser(this.state.username,this.state.password).then((res) => {
-  		var data = res.data;
-		if (data.username) {
-		    alert("Incorrect email or username");
-		    return;
-		} else if (!data.password) {
-		    alert("Incorrect password");
-		    return;
-		} else {
-			console.log(res,data);
-		}
-      // this.setState({ quotes: res.data });
-      // this.state.quotes.map(quote => console.log(quote.id));
+  	API.loginUser(this.state.name,this.state.password).then((res) => {
+
+      var check = typeof res.data;
+      if(check === "string"){
+        alert(res.data);
+      } else{
+        this.props.setCookie("userId",res.data.id);
+        this.props.setCookie("username",res.data.name);
+        this.props.history.push('/');
+      }
+
     });
   	e.preventDefault();
   	return false;
@@ -54,11 +52,11 @@ class Login extends Component {
     	        		<h2 style={{color:"#0079bf"}}>Login</h2>
     					<form id="login" onSubmit={(e) => this.fireLaserz(e)}>
     						<div className="form-group">
-    							<label style={{color:'#0079bf'}} htmlFor="username">Email/Username:</label>
-    							<input type="text" className="form-control" id="username" />
+    							<label style={{color:'#0079bf'}} htmlFor="name">Email/Username:</label>
+    							<input type="text" className="form-control" id="name" onChange={this.handleNameChange} />
     							<br />
     							<label style={{color:'#0079bf'}} htmlFor="password">Password:</label>
-    							<input type="password" className="form-control" id="password" />
+    							<input type="password" className="form-control" id="password" onChange={this.handlePasswordChange} />
     							<br />
     							<button type="submit" className="btn btn-success submit">Login</button>
     						</div>
@@ -71,4 +69,4 @@ class Login extends Component {
   }
 }
 
-export default Login;
+export default withRouter(Login);

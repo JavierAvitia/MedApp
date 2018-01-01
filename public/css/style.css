@@ -50,3 +50,8 @@ body {
 .cLUNCH {
   background-color: yellow;
 }
+
+#logout {
+  margin: 10px 0px;
+  float: right;
+}

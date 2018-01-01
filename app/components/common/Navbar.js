@@ -4,6 +4,9 @@ import { Link } from "react-router-dom";
 const Navbar = (props) => (
   <nav style={{ marginBottom: 0 }} className="navbar navbar-inverse">
     <div className="container-fluid">
+      <Link className="btn btn-info btn-lg" id="logout" to="/" onClick={() => props.logout()}>
+        <span className="glyphicon glyphicon-log-out" ></span> Log out
+      </Link>
       <div className="navbar-header">
         <Link className="navbar-brand" to="/" onClick={() => this.props.pathName("/")}>Med App</Link>
       </div>

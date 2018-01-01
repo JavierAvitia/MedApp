@@ -11,7 +11,7 @@ import Tasks from "./children//Tasks";
 
 const LoggedIn = (props) => (
 	<div>
-		<Navbar pathName={props.pathName} loggedIn={props.loggedIn} />
+		<Navbar pathName={props.pathName} loggedIn={props.loggedIn} logout={props.logout} />
 	    <Route exact path="/" render={() => (<Home username={props.username}/>)} />
 	    <Route path="/tasks" component={Tasks} />
 	    <Route path="/priorities" component={Priorities} />

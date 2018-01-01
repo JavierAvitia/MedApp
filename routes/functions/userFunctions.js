@@ -27,16 +27,16 @@ module.exports = {
 //Validate password on user logins [possibly modify to use route on sign-up]
     validateUser: function(req, res) {
         var query = req.query;
+        console.log(query);
         db.User.findOne({
             where: query
-        }).then(function(data) {
-            if (data == null) {
-                res.json({ username: true });
+        }).then(function(dbUser) {
+            if (dbUser === null) {
+                res.send("Incorrect email or username");
+            } else if (bcrypt.compareSync(req.body.password, dbUser.password)) {
+                res.json(dbUser);
             } else {
-                res.json({
-                    password: bcrypt.compareSync(req.body.password, data.password),
-                    id: data.id
-                });
+                res.send("Incorrect password.");
             }
         });
     },
